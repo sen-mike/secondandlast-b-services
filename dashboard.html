@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Secondandlast B Services</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #1e293b;
+            --text-main: #334155;
+            --text-light: #64748b;
+            --white: #ffffff;
+            --bg-light: #f8fafc;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-main);
+            background-color: var(--bg-light);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Utility */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.2s ease;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+            letter-spacing: -0.02em;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav a {
+            font-weight: 500;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            border: none;
+            font-size: 0.95rem;
+        }
+
+        .btn-outline {
+            border: 1px solid var(--text-light);
+            color: var(--text-main);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--white);
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 8px -1px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-nav-signup {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+        }
+
+        /* Dashboard Section */
+        .dashboard-section {
+            flex: 1;
+            padding: 3rem 0;
+        }
+
+        .dashboard-header {
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-header h1 {
+            font-size: 2rem;
+            color: var(--secondary);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .user-info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .label {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .value {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .notification-item {
+            padding: 0.75rem;
+            border-radius: 6px;
+            background-color: #f0f9ff;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+            color: var(--text-main);
+        }
+
+        .notification-item.urgent {
+            background-color: #fffbeb;
+            border-left-color: var(--warning);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 1.5rem;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        .action-area {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        /* Footer (Same as index) */
+        footer {
+            background-color: var(--secondary);
+            color: var(--bg-light);
+            padding: 3rem 0;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-info {
+            max-width: 300px;
+        }
+
+        .footer-logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .footer-text {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .footer-links h4 {
+            color: var(--white);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+        }
+
+        .copyright {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #334155;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-wrapper {
+                height: 60px;
+            }
+
+            nav ul {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="nav-wrapper">
+                <a href="index.html" class="logo">Secondandlast <span>B Services</span></a>
+
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="login.html" class="btn btn-outline btn-nav-signup">Login</a></li>
+                        <li><a href="signup.html" class="btn btn-primary btn-nav-signup">Sign Up</a></li>
+                    </ul>
+                    <button class="mobile-menu-toggle">☰</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Main Area -->
+    <section class="dashboard-section">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1>Welcome back, Alex!</h1>
+                <p>Here's what's happening with your account today.</p>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- User Profile Summary -->
+                <div class="card">
+                    <h3>My Profile</h3>
+                    <div class="user-info-row">
+                        <span class="label">Full Name:</span>
+                        <span class="value">Alex Johnson</span>
+                    </div>
+                    <div class="user-info-row">
+                        <span class="label">Email:</span>
+                        <span class="value">alex.j@example.com</span>
+                    </div>
+                    <div class="user-info-row">
+                        <span class="label">Member Since:</span>
+                        <span class="value">Dec 2024</span>
+                    </div>
+                    <div class="action-area" style="margin-top: 1.5rem;">
+                        <a href="#" class="btn btn-outline btn-full">Edit Profile</a>
+                    </div>
+                </div>
+
+                <!-- Notifications -->
+                <div class="card">
+                    <h3>Notifications</h3>
+                    <div class="notification-item">
+                        <strong>New Message</strong><br>
+                        Your inquiry regarding "Business Strategy" has a new reply.
+                    </div>
+                    <div class="notification-item urgent">
+                        <strong>Action Required</strong><br>
+                        Please verify your email address to complete setup.
+                    </div>
+                </div>
+
+                <!-- Actions / Messages -->
+                <div class="card">
+                    <h3>Quick Actions</h3>
+                    <p style="margin-bottom: 1rem; color: var(--text-light); font-size: 0.95rem;">You have 2 unread
+                        messages from support.</p>
+                    <div class="action-area">
+                        <a href="#" class="btn btn-primary btn-full">View My Messages</a>
+                        <a href="#" class="btn btn-outline btn-full">Submit New Enquiry</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <span class="footer-logo">Secondandlast B Services</span>
+                    <p class="footer-text">Providing top-tier business solutions for modern enterprises. Your success is
+                        our mission.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Support</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                &copy; 2025 Secondandlast B Services. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>
